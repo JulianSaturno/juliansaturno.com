@@ -1,4 +1,4 @@
-## Welcome to GitHub Pages
+## Hello and welcome. Come check out what I'm building!
 
 You can use the [editor on GitHub](https://github.com/JulianSaturno/website/edit/main/README.md) to maintain and preview the content for your website in Markdown files.
 

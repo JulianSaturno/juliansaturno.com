@@ -1,0 +1,116 @@
+<!DOCTYPE HTML>
+<html>
+	<head>
+		<title>Solar Tracker</title>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+		<link rel="stylesheet" href="assets/css/main.css" />
+		<noscript><link rel="stylesheet" href="assets/css/noscript.css" /></noscript>
+	</head>
+	<body class="is-preload">
+
+		<!-- Page Wrapper -->
+			<div id="page-wrapper">
+
+				<!-- Header -->
+					<header id="header">
+						<h1><a href="index.html">Julian Saturno</a></h1>
+						<nav>
+							<a href="#menu">Menu</a>
+						</nav>
+					</header>
+
+				<!-- Menu -->
+					<nav id="menu">
+						<div class="inner">
+							<h2>Menu</h2>
+							<ul class="links">
+								<li><a href="index.html">Home</a></li>
+								<li><a href="solarTracker.html">Project Hub</a></li>
+							</ul>
+							<a href="#" class="close">Close</a>
+						</div>
+					</nav>
+
+				<!-- Wrapper -->
+					<section id="wrapper">
+						<header>
+							<div class="inner">
+								<h2>Solar Tracker</h2>
+								<p>Determining optimal angle for running power-neutral systems.</p>
+							</div>
+						</header>
+
+						<!-- Content -->
+							<div class="wrapper">
+								<div class="inner">
+
+									<h3 class="major">Problem Statement</h3>
+									<p>The problem we are tackling spans three main areas: power  neutrality, determining the maximum power point, and the      effect of the angle of incidence on maximum power point. We want to build a device that is able to perform its task of            tracking the sun's position whilst being powered via its solar   cell. In doing so, we are taking the original design's need to    require the servo motors and Pi to connect to DC power         source. The goal is to eliminate the need of reliance on           outside power systems to run the tracker. Additionally, we     want to tackle optimization of power neutrality. In order to      have the solar tracker run solely on solar energy, we want to know at what point the solar cell has a maximum power         output. Finally, we want to explore the reason behind tracking the sun. Efficiency on the tracking side comes from the optimally determined angle for solar energy production.</p>
+									<h3 class="major">Design Criteria</h3>
+									<p>Real time, optimal tracking of the sun's position.  The solar   tracker will be able to use Raspberry Pi program to update  positioning to perpendicular with the sun.
+										Design should be able to run without a need for external      source of power. Should be powered through charging the  solar cell battery.
+										Support good range of motion. Rotational movement of the servos for the head movement should support 0 - 180 degrees
+										panning and 0 - 90 degrees tilting.
+										Maximum power point tracking. Design should be able to determine at what angle of incidence the solar cell will provide
+										the most power output for the solar cell.</p>
+										<h3 class="major">Design Constraints</h3>
+										<p>Determining power consumption of the design's utilities. The solar tracker must able to be powered via the battery
+											charged by the power module set up.
+										
+											Determining the Maximum Power Point Tracking of the solar cell. Only through experimentation are we able to
+											graphically see the data where MPPT happens.
+										
+											Design parts that are able to be substituted. Given the resources and what we can work with, finding parts that can be
+											substituted for planned ones is something to think about. Additionally, looking up the power rating of each will be
+											key.
+											Small solar panel makes for more angle adjustments as opposed to larger solar panels. Need to account for the length
+											of time passing for each adjustment.</p>
+									<h3 class="major">Design Solution</h3>
+									<p>The biggest issue that needed to be tackled was the power        consumption. Since the Raspberry Pi and servos were failing to work together in our system under the power of the solar cell for extended periods, we needed to find a way to circumvent the      issue. Through various experimentation that included the testing manual movement, we ultimately decided upon using the Analog Discovery kit to measure the power output of the solar cell while we adjusted the solar panel using pySolar. After the first two      adjustments, we found that updating the solar head within the     first 30 minutes did not provide much change in power output.   So, we decided to wait approximately an hour for the sun to      move enough to show a decrease in power output, and then we would update again. Between each cycle, we turned off the        servos since they didn't need to be powered unless they were moving the head.</p>
+									<h4>Figure 1: Solar Tracker Attached to Power Module</h4>
+									<a href="#" class="image"><img src="images/solarTrackerFull.jpg" alt="" width="500" height="350"></a>
+									<p></p>
+									<h3 class="major">Design Performance</h3>
+									<p>Through the whole design process and experimentation,        testing was accomplished through various means. For          maximum power point determination, the data collection        program we ran on the Pi did not work as intended, so we     had to resort to other methods. We ended up using the         Analog Discovery's oscilloscope to read the voltage value     across the variable load and record the values. </p>
+									<h4>Figure 2: Maximum Power Point for the Solar Cell</h4>
+									<a href="#" class="image"><img src="images/MPPT.png" alt="" width="500" height="350"></a>
+									<p>We incrementally changed the potentiometer's values from 0 to 100 ohms, and recorded the output voltage at each           change. We also calculated the current draw as well at each point by using Ohm's law. At around approximately 40 ohms, we started to notice a sharper decrease in the current and       voltage. So, as we began to plot our results, we saw that our graph showed power peaking at around 4.3 volts. So, we      concluded that our maximum power point was at 4.3 volts.    This process took a bit to work out because our data             collection program wasn't working as intended, but it still gave us what we needed.</p>
+									<h4>Figure 3: Angle of Incidence versus Solar Cell Output</h4>
+									<a href="#" class="image"><img src="images/incidence.png" alt="" width="500" height="350"></a>
+									<p>With the knowledge of what the maximum power output of     the solar cell was, we were able to test and see the effect of  the angle of incidence on the solar cell power output. We      accomplished this by incrementing the angle of incidence of   the solar panel to the perpendicular of the sun. We started    with the solar panel head aligned directly with the sun and     changed the angle by 5 degrees after measuring the solar     cell output voltage. We noticed a decrease around 15            degrees from the perpendicular when voltage started to        decrease sharply. By the time, we shifted the angle to 80      degrees away from the perpendicular, essentially facing        away from the sun, we were reading close to 0 volt output.</p>
+									<h3 class="major">Design Next Steps</h3>
+									<P>If we were to continue working with the solar tracker, our focus would be on the power consumption aspect of the design.     With the Raspberry Pi and the servo motors being rated for   more than what the solar cell provides, we would find a way to optimally power the components either by finding lower power rated components to substitute or possibly using a bigger solar cell. 
+										Another option we had thought of is increasing the size of the solar panel. This would allow the need to update the angle       less frequently as the larger surface area is able to capture    more solar rays at angles a little bit farther from the                 perpendicular.										
+										Finally, as a personal fix, working on getting the data collection software to work properly would be a great improvement on    our design. Having to manually check each point with the        oscilloscope kind of defeated the purpose of the tracking         portion, so we focus on that next time.
+									</P>
+									<h3 class="major">Conclusion</h3>
+									<a href="#" class="image"><img src="images/partnership.png" alt="" width="600" height="350"></a>
+									<p>The current design has its flaws and has room to improve          overall in the working design. By needing to manually adjust the solar tracker head to its MPPT in order to eliminate the   power consumption of the servo motors and provide power   to the Raspberry Pi, it becomes insufficient in its purpose to  track on its own. However, the various experimentation to     find solutions to design issues were extremely beneficial to  understanding the engineering process. There were a lot of   times where things that needed to work were not working,    and this gave us opportunities to engineer new solutions.    Our hope is that we take the same creative approaches to   our problems in senior design. Since design improvements  will be of our own critiques and opinions, having the             opportunity to do it on a smaller scale project like the solar tracker was a good introduction.  
+									</p>
+								</div>
+							</div>
+
+					</section>
+
+				<!-- Footer -->
+					<section id="footer">
+						<div class="inner">
+							<ul class="copyright">
+								<li>&copy; Julian Saturno. All rights reserved.</li>
+							</ul>
+						</div>
+					</section>
+
+			</div>
+
+		<!-- Scripts -->
+			<script src="assets/js/jquery.min.js"></script>
+			<script src="assets/js/jquery.scrollex.min.js"></script>
+			<script src="assets/js/browser.min.js"></script>
+			<script src="assets/js/breakpoints.min.js"></script>
+			<script src="assets/js/util.js"></script>
+			<script src="assets/js/main.js"></script>
+
+	</body>
+</html>
